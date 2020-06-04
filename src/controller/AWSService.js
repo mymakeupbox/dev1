@@ -2,6 +2,7 @@ const { Lambda, SNS, CloudWatch } = require('aws-sdk');
 const RequestError = require('../models/RequestError');
 
 
+
 // Lambda environment variables
 const SMS_SUBJECT = process.env.SMS_SUBJECT;
 const ENVIRONMENT = process.env.ENVIRONMENT;
