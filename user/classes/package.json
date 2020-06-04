@@ -1,0 +1,15 @@
+{
+  "name": "classes",
+  "version": "1.0.0",
+  "description": "Classes package.json",
+  "main": "userClass.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "airtable": "^0.8.1",
+    "aws-sdk": "^2.689.0"
+  }
+}
