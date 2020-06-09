@@ -6,35 +6,35 @@ const RequestError = require('../models/RequestError');
 
 
 const HttpCodesEnum = {
-    OK = 200,
-    CREATED = 201,
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    FORBIDDEN = 403,
-    NOT_FOUND = 404,
-    PRECONDITION_FAILED = 412,
-    UNPROCESSABLE_ENTITY = 422,
-    SERVER_ERROR = 500,
-    NOT_IMPLEMENTED = 501
+    OK: 200,
+    CREATED: 201,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    PRECONDITION_FAILED: 412,
+    UNPROCESSABLE_ENTITY: 422,
+    SERVER_ERROR: 500,
+    NOT_IMPLEMENTED: 501
 };
 
 const AppCodes = {
-    S0001="S0001_SRQ",
-    E1001="E1001_SRQ",
-    E1002="E1002_SRQ",
-    E1003="E1003_SRQ",
-    E1004="E1004_SRQ",
-    E1005="E1005_SRQ",
-    E1006="E1006_SRQ",
-    E1007="E1007_SRQ",
-    E1008="E1008_SRQ",
-    E1009="E1009_SRQ"
+    S0001:"S0001_SRQ",
+    E1001:"E1001_SRQ",
+    E1002:"E1002_SRQ",
+    E1003:"E1003_SRQ",
+    E1004:"E1004_SRQ",
+    E1005:"E1005_SRQ",
+    E1006:"E1006_SRQ",
+    E1007:"E1007_SRQ",
+    E1008:"E1008_SRQ",
+    E1009:"E1009_SRQ"
 };
 
 const VALID_METHODS = 'OPTIONS,POST,GET';
 const VALID_HEADERS = 'Content-Type,Authorization,x-urlcode,X-Correlation-Id';
 
-export class ResponseHelper {
+module.exports =  class ResponseHelper {
 
     constructor(event, loggingHelper) {
         this.event = event;

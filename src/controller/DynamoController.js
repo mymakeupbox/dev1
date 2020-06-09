@@ -4,7 +4,7 @@ const LoggingHelper = require('../utils/LoggingHelper');
 
 
 
-export class DynamoController {
+module.exports = class DynamoController {
 
     constructor(loggingHelper) {
         this.loggingHelper = loggingHelper;

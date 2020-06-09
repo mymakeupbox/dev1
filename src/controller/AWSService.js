@@ -8,7 +8,7 @@ const SMS_SUBJECT = process.env.SMS_SUBJECT;
 const ENVIRONMENT = process.env.ENVIRONMENT;
 const REGION = process.env.REGION;
 
-export class AWSService {
+module.exports = class AWSService {
 
     constructor() {
         this.lambda = new Lambda();
