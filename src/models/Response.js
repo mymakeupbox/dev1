@@ -1,7 +1,4 @@
-export class Response {
-    statusCode
-    message
-    response
+module.exports = class Response {
 
     constructor(status, response, message = "") {
         this.statusCode = status;

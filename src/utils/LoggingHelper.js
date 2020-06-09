@@ -1,4 +1,4 @@
-export class LoggingHelper {
+module.exports = class LoggingHelper {
 
     /**
      * getInstance - Get a new instance of the loggingHelper class

@@ -4,16 +4,22 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-event-mocks": "0.0.0",
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.690.0",
     "axios": "^0.19.2",
+    "jest-mock-extended": "^1.0.8",
     "moment": "^2.26.0",
+    "serverless": "^1.72.0",
     "uuid": "^7.0.3",
     "uuidv4": "^6.1.0"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
   }
 }

@@ -6,7 +6,7 @@ const LoggingHelper  = require ('../utils/LoggingHelper');
 
 const USERS_TABLE = process.env.USERS_TABLE || "";
 
-export class DynamoDAO {
+module.exports = class DynamoDAO {
 
     constructor(loggingHelper) {
         this.dynamo = new AWS.DynamoDB.DocumentClient();
@@ -30,11 +30,11 @@ export class DynamoDAO {
     }
 
     /**
-     * getUser
+     * getUserById
      * Get the user record from the database keyed on id
      * returns an
      */
-    async getUser(id) {
+    async getUserById(id) {
         this.loggingHelper.info('Getting user id', id);
         let lRtnItem = {};
 

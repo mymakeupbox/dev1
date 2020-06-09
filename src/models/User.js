@@ -1,6 +1,6 @@
 const uuidv4 = require('uuidv4');
 
-export class User {
+module.exports = class User {
 
     static parse(request) {
         request.id = uuidv4(); // generate a unique ID - This might change to be tehe device ID
@@ -15,11 +15,11 @@ export class User {
         this.subscriberFlag = data.subscriberFlag;
         this.points = data.points;
         this.streakCount = data.streakCount;
-        try {
-            this.purchases = await getPurchases(userId);
-        } catch (error) {
-            this.purchases = {};
-        }
+        // try {
+        //     this.purchases = await getPurchases(userId);
+        // } catch (error) {
+        //     this.purchases = {};
+        // }
     }
 
     

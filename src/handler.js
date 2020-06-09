@@ -9,29 +9,30 @@ const ResponseHelper = require('./utils/ResponseHelper');
 const User = require('./models/User');
 
 const ResourcesEnum = {
-    RETRIEVE_USER = "/retrieveUser",
+    RETRIEVE_USER: "/retrieveUser",
 }
 
 const HttpCodesEnum = {
-    OK = 200,
-    CREATED = 201,
-    BAD_REQUEST = 400,
-    UNAUTHORIZED = 401,
-    FORBIDDEN = 403,
-    NOT_FOUND = 404,
-    PRECONDITION_FAILED = 412,
-    UNPROCESSABLE_ENTITY = 422,
-    SERVER_ERROR = 500,
-    NOT_IMPLEMENTED = 501
+    OK: 200,
+    CREATED: 201,
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    PRECONDITION_FAILED: 412,
+    UNPROCESSABLE_ENTITY: 422,
+    SERVER_ERROR: 500,
+    NOT_IMPLEMENTED: 501
 };
 
 
 
 /**
- * 
+ * handleFunctionEntryPoint 
+ * - This is the function that will handle the event
  * @param {APIGatewayEvent | ScheduledEvent} event 
  */
-export const handleFunctionEntryPoint = async (event) => {
+const handleFunctionEntryPoint = async (event) => {
     if (isApiEvent(event)) {
         // This is an API call
         return handleApiRequest(event);
@@ -42,6 +43,10 @@ export const handleFunctionEntryPoint = async (event) => {
     }
 };
 
+/**
+ * isApiEvent - Check if the event is an API call
+ * @param {obj} event 
+ */
 function isApiEvent(event){
     return (event).httpMethod !== undefined;
 }
@@ -54,7 +59,12 @@ function isApiEvent(event){
 //     return DynamoController.getInstance(loggingHelper).processAvailableEntries(correlationId);
 // }
 
-export const handleApiRequest = async (event) => {
+/**
+ * handleApiRequest
+ * - Handle the api request from the API Gateway
+ * @param {obj} event 
+ */
+const handleApiRequest = async (event) => {
     // Create a logger based on the X-Correlation-ID header value
     const loggingHelper = LoggingHelper.getInstance(event.headers['X-Correlation-ID']);
     loggingHelper.info('Handler event', event);
@@ -94,3 +104,12 @@ export const handleApiRequest = async (event) => {
     const error = new RequestError(HttpCodesEnum.BAD_REQUEST, `Resource doesn't exist - ${JSON.stringify(event.resource)}`, {});
     return responseHelper.getErrorResponse(error);
 }
+
+// Test call to handleFunctionEntrypoint
+(async () => {
+    console.log('...calling handler...');
+    
+    let result = await handleFunctionEntryPoint();
+    console.log(JSON.stringify(result));
+    console.log('...finished calling handler...');
+  })();

@@ -1,6 +1,4 @@
-export class RequestError extends Error {
-    statusCode;
-    obj;
+module.exports = class RequestError extends Error {
 
     constructor(statusCode, message, obj){
         super(message);
