@@ -1,7 +1,7 @@
 {
   "body": {},
   "resource": "/{proxy+}",
-  "path": "/getUserById",
+  "path": "/checkSubscriberById",
   "httpMethod": "GET",
   "isBase64Encoded": true,
   "queryStringParameters": {
@@ -10,7 +10,7 @@
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/getUserById"
+    "proxy": "/checkSubscriberById"
   },
   "stageVariables": {
   },
@@ -110,7 +110,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/getUserById",
+    "path": "/checkSubscriberById",
     "resourcePath": "/{proxy+}",
     "httpMethod": "POST",
     "apiId": "1234567890",

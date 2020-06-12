@@ -10,7 +10,7 @@ const User = require('./models/User');
 
 const ResourcesEnum = {
     RETRIEVE_USER: "/getUserById",
-    CHECK_SUBSCRIBER: "/isUserSubscribed"
+    CHECK_SUBSCRIBER: "/checkSubscriberById"
 }
 
 const HttpCodesEnum = {
@@ -74,14 +74,13 @@ exports.handler = async (event, context) => {
         case ResourcesEnum.CHECK_SUBSCRIBER:
 
             try {
-                // Get the request body object from the request body
-                const request = JSON.parse(event.body);
+                const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).checkSubscriber(request.userId);
+                const response = await DynamoController.getInstance(loggingHelper).checkSubscriber(userId);
 
                 return responseHelper.getSuccessfulResponse(
-                    new Response(HttpCodesEnum.OK, response)
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
                 );
 
             } catch (err) {

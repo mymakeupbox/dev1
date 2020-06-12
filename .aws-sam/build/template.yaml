@@ -1,11 +1,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 'makeupbox - User
+Description: 'makeupbox - User, subscriber
 
   '
 Globals:
   Function:
     Timeout: 3
+    Environment:
+      Variables:
+        USERS_TABLE: user
 Resources:
   userFunction:
     Type: AWS::Serverless::Function
@@ -18,6 +21,18 @@ Resources:
           Type: Api
           Properties:
             Path: /getUserById
+            Method: get
+  subscriberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: subscriberFunction
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Events:
+        subscriber:
+          Type: Api
+          Properties:
+            Path: /checkSubscriberById
             Method: get
 Outputs:
   userApi:
@@ -35,4 +50,20 @@ Outputs:
     Value:
       Fn::GetAtt:
       - userFunctionRole
+      - Arn
+  subscriberApi:
+    Description: API Gateway endpoint URL for Prod stage for subscriber function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/subscriber/
+  subscriberFunction:
+    Description: subscriber Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - subscriberFunction
+      - Arn
+  subscriberFunctionIamRole:
+    Description: Implicit IAM Role created for subscriber function
+    Value:
+      Fn::GetAtt:
+      - subscriberFunctionRole
       - Arn

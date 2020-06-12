@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const moment = require("moment");
 const DocumentClient = require("aws-sdk/lib/dynamodb/document_client");
 
-const USERS_TABLE = process.env.USERS_TABLE || "user";
+const USERS_TABLE = process.env.USERS_TABLE || "";
 
 module.exports = class DynamoDAO {
   constructor(pLoggingHelper) {
@@ -47,14 +47,6 @@ module.exports = class DynamoDAO {
     // Scan for the item in the user-id-index
     let response = await this.dynamo.query(params).promise();
 
-    // this.dynamo.query(params, function(err, data) {
-
-    //   data.Items.forEach(function(item) {
-    //     lRtnItem = item;
-    //   });
-
-    // });
-
 
     return response;
   }
@@ -70,7 +62,7 @@ module.exports = class DynamoDAO {
 
     let params = {
       IndexName: "user-id-index",
-      TableName: DynamoDAO.USERS_TABLE,
+      TableName: "user",
       ProjectionExpression: "subscriber",
       KeyConditionExpression: "id = :id",
       ExpressionAttributeValues: {
@@ -80,11 +72,7 @@ module.exports = class DynamoDAO {
     // Scan for the item in the user-id-index
     let response = await this.dynamo.query(params).promise();
 
-    response.Items.forEach(function(item) {
-      lRtnItem = item;
-    });
-
-    return lRtnItem;
+    return response.Items[0];
   }
 
   /**
