@@ -1,7 +1,3 @@
-
-const Response = require('../models/Response');
-const LoggingHelper = require('./LoggingHelper');
-const APIGatewayEvent = require('aws-lambda');
 const RequestError = require('../models/RequestError');
 
 

@@ -1,5 +1,4 @@
 const AWS = require("aws-sdk");
-const moment = require("moment");
 const DocumentClient = require("aws-sdk/lib/dynamodb/document_client");
 
 const USERS_TABLE = process.env.USERS_TABLE || "";
@@ -34,8 +33,6 @@ module.exports = class DynamoDAO {
   async getUserById(id) {
     this.loggingHelper.info("Getting user id", id);
 
-    let lRtnItem = {};
-
     const params = {
       IndexName: "user-id-index",
       TableName: "user",
@@ -58,7 +55,6 @@ module.exports = class DynamoDAO {
    */
   async checkSubscriberById(id) {
     this.loggingHelper.info("Getting subsciber flag", id);
-    let lRtnItem = {};
 
     let params = {
       IndexName: "user-id-index",
@@ -76,41 +72,20 @@ module.exports = class DynamoDAO {
   }
 
   /**
-   * markAsSubscriber
-   * Set the subscriber field to true for the
-   * item in question
+   * updateSubscriber
+   * Set the subscriber field to true or false
+   * 
    */
-  async markAsSubscriber(item) {
-    this.loggingHelper.info("Mark user as subscriber", item);
+  async updateSubscriber(id, subscriberValue) {
+    this.loggingHelper.info("Update subscriber flag to ", subscriberValue);
     const params = {
-      TableName: DynamoDAO.USERS_TABLE,
+      TableName: USERS_TABLE,
       Key: {
-        id: item.id
+        id: id
       },
       UpdateExpression: `SET subscriber = :subscriber`,
       ExpressionAttributeValues: {
-        ":subscriber": true
-      },
-      ReturnValues: "UPDATED_NEW"
-    };
-    return this.dynamo.update(params).promise();
-  }
-
-  /**
-   * removeSubscriber
-   * Set the subscriber field to false for the
-   * item in question
-   */
-  async removeSubscriber(item) {
-    this.loggingHelper.info("Remove user as subscriber", item);
-    const params = {
-      TableName: DynamoDAO.USERS_TABLE,
-      Key: {
-        id: item.id
-      },
-      UpdateExpression: `SET subscriber = :subscriber`,
-      ExpressionAttributeValues: {
-        ":subscriber": false
+        ":subscriber": subscriberValue
       },
       ReturnValues: "UPDATED_NEW"
     };
@@ -119,38 +94,28 @@ module.exports = class DynamoDAO {
 
   /**
    * getPurchases - Get the purchases of the user
-   * @param {obj} pUserId
+   * @param {string} pUserId
    */
-  async getPurchases(item) {
-    this.loggingHelper.info("Get purchases for user", item);
-    let lRtnJson;
+  async getPurchases(id) {
+    this.loggingHelper.info("Get purchases for user", id);
 
-    let docClient = new DynamoDB.DocumentClient();
-
-    let query = {
+    let params = {
+      IndexName: "user-id-index",
       TableName: "user",
-      ProjectionExpression: "ID",
-      KeyConditionExpression: "ID = :pUserId",
+      ProjectionExpression: "purchases",
+      KeyConditionExpression: "id = :id",
       ExpressionAttributeValues: {
-        ":pUserId": item.id
+        ":id": id
       }
     };
+    // Scan for the item in the user-id-index
+    let response = await this.dynamo.query(params).promise();
 
-    console.log("> Query is ", query);
+    return response.Items[0].purchases;
 
-    docClient.query(query, function(err, data) {
-      if (err) {
-        let errorResponse =
-          "Unable to query. Error:" + JSON.stringify(err, null, 2);
-        reject(new Error(errorResponse));
-      } else {
-        console.log("Query succeeded.", data);
-        if (data.Items.length !== 0) {
-          data.Items.forEach(function(rtnItem) {
-            return rtnItem.purchases;
-          });
-        }
-      }
-    });
-  }
+  }; // getPurchases
+
+
+
+
 };

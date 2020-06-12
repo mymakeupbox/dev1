@@ -30,6 +30,11 @@ module.exports = class DynamoController {
         return this.dynamoDao.checkSubscriberById(id);
 
     }
+    async getPurchases(id) {
+        this.loggingHelper.info('get purchases by user id', id);
+        return this.dynamoDao.getPurchases(id);
+
+    }
 
     // add a new user to the user table
     async addNewUser(item) {
@@ -38,8 +43,10 @@ module.exports = class DynamoController {
     }
 
     // Set the user as a subscriber
-    async setUserAsASubscriber(item) {
-        this.loggingHelper.info('Changing user %s to a subscriber', item.id);
-        return this.dynamoDao.markAsSubscriber(item);
+    async updateSubscriber(id, subscriberValue) {
+        this.loggingHelper.info('Changing user %s subscriber flag', id);
+        this.loggingHelper.info('Subscriber flag = ', subscriberValue);
+
+        return this.dynamoDao.updateSubscriber(id, subscriberValue);
     }
 }

@@ -12,7 +12,7 @@ Globals:
         USERS_TABLE: user
 
 Resources:
-  userFunction:
+  makeupboxFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/
@@ -24,38 +24,35 @@ Resources:
           Properties:
             Path: /getUserById
             Method: get
-  subscriberFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: src/
-      Handler: index.handler
-      Runtime: nodejs12.x
-      Events:
         subscriber:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /checkSubscriberById
-            Method: get       
+            Method: get
+        updateSubscriber:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /updateSubscriber
+            Method: post
+        getPurchases:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getPurchases
+            Method: get
+
+
+               
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  userApi:
-    Description: "API Gateway endpoint URL for Prod stage for User function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/user/"
-  userFunction:
-    Description: "User Lambda Function ARN"
-    Value: !GetAtt userFunction.Arn
-  userFunctionIamRole:
-    Description: "Implicit IAM Role created for User function"
-    Value: !GetAtt userFunctionRole.Arn
-  subscriberApi:
-    Description: "API Gateway endpoint URL for Prod stage for subscriber function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/subscriber/"
-  subscriberFunction:
-    Description: "subscriber Lambda Function ARN"
-    Value: !GetAtt subscriberFunction.Arn
-  subscriberFunctionIamRole:
-    Description: "Implicit IAM Role created for subscriber function"
-    Value: !GetAtt subscriberFunctionRole.Arn
+  makeupboxApi:
+    Description: "API Gateway endpoint URL for Prod stage for makeupbox function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/"
+  makeupboxFunction:
+    Description: "makeupbox Lambda Function ARN"
+    Value: !GetAtt makeupboxFunction.Arn
+  makeupboxFunctionIamRole:
+    Description: "Implicit IAM Role created for makeupbox function"
+    Value: !GetAtt makeupboxFunctionRole.Arn

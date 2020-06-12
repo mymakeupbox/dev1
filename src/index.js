@@ -1,6 +1,3 @@
-
-const APIGatewayEvent = require('aws-lambda').APIGatewayEvent;
-const ScheduledEvent = require('aws-lambda').ScheduledEvent;
 const RequestError = require('./models/RequestError');
 const DynamoController = require('./controller/DynamoController');
 const Response = require('./models/Response');
@@ -10,7 +7,9 @@ const User = require('./models/User');
 
 const ResourcesEnum = {
     RETRIEVE_USER: "/getUserById",
-    CHECK_SUBSCRIBER: "/checkSubscriberById"
+    CHECK_SUBSCRIBER: "/checkSubscriberById",
+    UPDATE_SUBSCRIBER: '/updateSubscriber',
+    GET_PURCHASES: '/getPurchases'
 }
 
 const HttpCodesEnum = {
@@ -70,7 +69,7 @@ exports.handler = async (event, context) => {
             }
 
             break;
-            // Check if the user is subscribe or not
+        // Check if the user is subscribe or not
         case ResourcesEnum.CHECK_SUBSCRIBER:
 
             try {
@@ -78,6 +77,49 @@ exports.handler = async (event, context) => {
 
                 // Get a new instance of the database controller and then add a new user.
                 const response = await DynamoController.getInstance(loggingHelper).checkSubscriber(userId);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
+        // Get purchases for user Id
+        case ResourcesEnum.GET_PURCHASES:
+
+            try {
+                const userId = event.queryStringParameters.userId;
+
+                // Get a new instance of the database controller and then add a new user.
+                const response = await DynamoController.getInstance(loggingHelper).getPurchases(userId);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
+        
+        //  Update the subscriber flag
+        case ResourcesEnum.UPDATE_SUBSCRIBER:
+            try {
+                const request = JSON.parse(event.body);
+
+                console.log('request = ', request);
+
+
+                const userId = event.queryStringParameters.userId;
+
+                // Get a new instance of the database controller and then add a new user.
+                const response = await DynamoController.getInstance(loggingHelper).updateSubscriber(userId, request.subscriberFlag);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))

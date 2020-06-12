@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "makeupbox"
+stack_name = "mmb1"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1h6ptpir2k1lz"
-s3_prefix = "makeupbox"
+s3_prefix = "mmb1"
 region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"

@@ -10,10 +10,10 @@ Globals:
       Variables:
         USERS_TABLE: user
 Resources:
-  userFunction:
+  makeupboxFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: userFunction
+      CodeUri: makeupboxFunction
       Handler: index.handler
       Runtime: nodejs12.x
       Events:
@@ -22,48 +22,35 @@ Resources:
           Properties:
             Path: /getUserById
             Method: get
-  subscriberFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: subscriberFunction
-      Handler: index.handler
-      Runtime: nodejs12.x
-      Events:
         subscriber:
           Type: Api
           Properties:
             Path: /checkSubscriberById
             Method: get
+        updateSubscriber:
+          Type: Api
+          Properties:
+            Path: /updateSubscriber
+            Method: post
+        getPurchases:
+          Type: Api
+          Properties:
+            Path: /getPurchases
+            Method: get
 Outputs:
-  userApi:
-    Description: API Gateway endpoint URL for Prod stage for User function
+  makeupboxApi:
+    Description: API Gateway endpoint URL for Prod stage for makeupbox function
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/user/
-  userFunction:
-    Description: User Lambda Function ARN
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/
+  makeupboxFunction:
+    Description: makeupbox Lambda Function ARN
     Value:
       Fn::GetAtt:
-      - userFunction
+      - makeupboxFunction
       - Arn
-  userFunctionIamRole:
-    Description: Implicit IAM Role created for User function
+  makeupboxFunctionIamRole:
+    Description: Implicit IAM Role created for makeupbox function
     Value:
       Fn::GetAtt:
-      - userFunctionRole
-      - Arn
-  subscriberApi:
-    Description: API Gateway endpoint URL for Prod stage for subscriber function
-    Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/subscriber/
-  subscriberFunction:
-    Description: subscriber Lambda Function ARN
-    Value:
-      Fn::GetAtt:
-      - subscriberFunction
-      - Arn
-  subscriberFunctionIamRole:
-    Description: Implicit IAM Role created for subscriber function
-    Value:
-      Fn::GetAtt:
-      - subscriberFunctionRole
+      - makeupboxFunctionRole
       - Arn

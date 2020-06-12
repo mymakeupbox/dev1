@@ -1,8 +1,8 @@
 {
-  "body": {},
+  "body": {"subscriberFlag": false},
   "resource": "/{proxy+}",
-  "path": "/checkSubscriberById",
-  "httpMethod": "GET",
+  "path": "/updateSubscriber",
+  "httpMethod": "POST",
   "isBase64Encoded": true,
   "queryStringParameters": {
     "userId": "sadf3ds-ewfszxf-erxce-4dsdffd"
@@ -10,7 +10,7 @@
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/checkSubscriberById"
+    "proxy": "/updateSubscriber"
   },
   "stageVariables": {
   },
@@ -110,7 +110,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/checkSubscriberById",
+    "path": "/updateSubscriber",
     "resourcePath": "/{proxy+}",
     "httpMethod": "POST",
     "apiId": "1234567890",
