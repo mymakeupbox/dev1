@@ -39,9 +39,9 @@ module.exports =  class ResponseHelper {
     constructor(event, loggingHelper) {
         this.event = event;
         this.loggingHelper = loggingHelper;
-        this.origin = event.headers.Origin || event.headers.origin || '';
-        this.validOrigins = process.env.URL_ENDING ? JSON.parse(process.env.URL_ENDING) : [];
-        this.filteredOrigin = this.validOrigins.some((validEnd) => this.origin.endsWith(validEnd)) ? this.origin : '';
+        this.origin = '';//event.headers.Origin || event.headers.origin || '';
+        this.validOrigins = '';//process.env.URL_ENDING ? JSON.parse(process.env.URL_ENDING) : [];
+        this.filteredOrigin = '';//this.validOrigins.some((validEnd) => this.origin.endsWith(validEnd)) ? this.origin : '';
     }
 
     isValidOrigin() {

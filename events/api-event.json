@@ -1,22 +1,18 @@
 {
-  "body": "",
+  "body": {},
   "resource": "/{proxy+}",
-  "path": "/“user”",
+  "path": "/getUserById",
   "httpMethod": "GET",
   "isBase64Encoded": true,
   "queryStringParameters": {
-    "foo": "bar"
+    "userId": "sadf3ds-ewfszxf-erxce-4dsdffd"
   },
   "multiValueQueryStringParameters": {
-    "foo": [
-      "bar"
-    ]
   },
   "pathParameters": {
-    "proxy": "/“user”"
+    "proxy": "/getUserById"
   },
   "stageVariables": {
-    "baz": "qux"
   },
   "headers": {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -114,7 +110,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/prod/“user”",
+    "path": "/prod/getUserById",
     "resourcePath": "/{proxy+}",
     "httpMethod": "GET",
     "apiId": "1234567890",

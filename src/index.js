@@ -1,3 +1,4 @@
+
 const APIGatewayEvent = require('aws-lambda').APIGatewayEvent;
 const ScheduledEvent = require('aws-lambda').ScheduledEvent;
 const RequestError = require('./models/RequestError');
@@ -54,10 +55,8 @@ exports.handler = async (event, context) => {
         // process the API call to /retrieveUser
         case ResourcesEnum.RETRIEVE_USER:
             try {
-                // Get the request body object from the request body
-                const request = JSON.parse(event.body);
 
-                const userId = JSON.parse(event.queryStringParameters.userId);
+                const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
                 const response = await DynamoController.getInstance(loggingHelper).getUserById(userId);
