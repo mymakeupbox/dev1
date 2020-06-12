@@ -1,3 +1,4 @@
+
 const APIGatewayEvent = require('aws-lambda').APIGatewayEvent;
 const ScheduledEvent = require('aws-lambda').ScheduledEvent;
 const RequestError = require('./models/RequestError');
