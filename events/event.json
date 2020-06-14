@@ -1,16 +1,16 @@
 {
   "body": {},
   "resource": "/{proxy+}",
-  "path": "/getUserById",
+  "path": "/getUserTools",
   "httpMethod": "GET",
   "isBase64Encoded": true,
   "queryStringParameters": {
-    "userId": "sadf3ds-ewfszxf-erxce-4dsdffd"
+    "userId": "sadf3ds-ewfszxf-erxce-4dsdfxx"
   },
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/getUserById"
+    "proxy": "/getUserTools"
   },
   "stageVariables": {
   },
@@ -110,9 +110,9 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/getUserById",
+    "path": "/getUserTools",
     "resourcePath": "/{proxy+}",
-    "httpMethod": "POST",
+    "httpMethod": "GET",
     "apiId": "1234567890",
     "protocol": "HTTP/1.1"
   }

@@ -1,16 +1,23 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 'makeupbox - User
+Description: 'makeupbox - User, subscriber
 
   '
 Globals:
   Function:
     Timeout: 3
+    Environment:
+      Variables:
+        USERS_TABLE: user
+        USERS_INDEX: user-id-index
+        TOOLS_TABLE: tools
+        TOOLS_INDEX: tools-id-index
+        AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
 Resources:
-  userFunction:
+  makeupboxFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: userFunction
+      CodeUri: makeupboxFunction
       Handler: index.handler
       Runtime: nodejs12.x
       Events:
@@ -19,20 +26,45 @@ Resources:
           Properties:
             Path: /getUserById
             Method: get
+        subscriber:
+          Type: Api
+          Properties:
+            Path: /checkSubscriberById
+            Method: get
+        updateSubscriber:
+          Type: Api
+          Properties:
+            Path: /updateSubscriber
+            Method: post
+        getPurchases:
+          Type: Api
+          Properties:
+            Path: /getPurchases
+            Method: get
+        addNewUser:
+          Type: Api
+          Properties:
+            Path: /addNewUser
+            Method: post
+        getUserTools:
+          Type: Api
+          Properties:
+            Path: /getUserTools
+            Method: get
 Outputs:
-  userApi:
-    Description: API Gateway endpoint URL for Prod stage for User function
+  makeupboxApi:
+    Description: API Gateway endpoint URL for Prod stage for makeupbox function
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/user/
-  userFunction:
-    Description: User Lambda Function ARN
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/
+  makeupboxFunction:
+    Description: makeupbox Lambda Function ARN
     Value:
       Fn::GetAtt:
-      - userFunction
+      - makeupboxFunction
       - Arn
-  userFunctionIamRole:
-    Description: Implicit IAM Role created for User function
+  makeupboxFunctionIamRole:
+    Description: Implicit IAM Role created for makeupbox function
     Value:
       Fn::GetAtt:
-      - userFunctionRole
+      - makeupboxFunctionRole
       - Arn
