@@ -11,8 +11,8 @@
   "dependencies": {
     "aws-sdk": "^2.690.0",
     "uuid": "^7.0.3",
-    "uuidv4": "^6.1.0"
+    "uuidv4": "^6.1.0",
+    "airtable": "^0.8.1"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

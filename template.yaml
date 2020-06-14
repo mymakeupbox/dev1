@@ -10,6 +10,10 @@ Globals:
     Environment:
       Variables:
         USERS_TABLE: user
+        USERS_INDEX: user-id-index
+        TOOLS_TABLE: tools
+        TOOLS_INDEX: tools-id-index
+        AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
 
 Resources:
   makeupboxFunction:
@@ -39,7 +43,16 @@ Resources:
           Properties:
             Path: /getPurchases
             Method: get
-
+        addNewUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /addNewUser
+            Method: post
+        getUserTools:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /getUserTools
+            Method: get
 
                
 

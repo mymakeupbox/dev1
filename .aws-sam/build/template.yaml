@@ -9,6 +9,10 @@ Globals:
     Environment:
       Variables:
         USERS_TABLE: user
+        USERS_INDEX: user-id-index
+        TOOLS_TABLE: tools
+        TOOLS_INDEX: tools-id-index
+        AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
 Resources:
   makeupboxFunction:
     Type: AWS::Serverless::Function
@@ -36,6 +40,16 @@ Resources:
           Type: Api
           Properties:
             Path: /getPurchases
+            Method: get
+        addNewUser:
+          Type: Api
+          Properties:
+            Path: /addNewUser
+            Method: post
+        getUserTools:
+          Type: Api
+          Properties:
+            Path: /getUserTools
             Method: get
 Outputs:
   makeupboxApi:

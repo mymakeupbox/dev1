@@ -36,6 +36,12 @@ module.exports = class DynamoController {
 
     }
 
+    async getUserTools(id) {
+        this.loggingHelper.info('get tools by user id', id);
+        return this.dynamoDao.getUserTools(id);
+
+    }
+
     // add a new user to the user table
     async addNewUser(item) {
         this.loggingHelper.info('Adding new user', item);
