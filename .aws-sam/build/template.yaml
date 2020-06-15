@@ -51,6 +51,11 @@ Resources:
           Properties:
             Path: /getUserTools
             Method: get
+        addNewUserTool:
+          Type: Api
+          Properties:
+            Path: /addNewUserTool
+            Method: post
 Outputs:
   makeupboxApi:
     Description: API Gateway endpoint URL for Prod stage for makeupbox function

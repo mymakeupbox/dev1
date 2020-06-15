@@ -104,7 +104,55 @@ module.exports = class DynamoDAO {
       ReturnValues: "UPDATED_NEW"
     };
     return this.dynamo.update(params).promise();
-  }
+  };
+
+  /**
+   * addNewUserTool
+   * @param {string} id 
+   * @param {string} toolId 
+   */
+  async addNewUserTool(id, toolId) {
+    this.loggingHelper.info("Update tool array for user ", id);
+
+    // Get the current user details
+    let params = {
+      IndexName: USERS_INDEX,
+      TableName: USERS_TABLE,
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": id
+      }
+    };
+    // Scan for the item in the user-id-index
+    let response = await this.dynamo.query(params).promise();
+
+    let toolsArray = response.Items[0].tools;
+
+    toolsArray.push(toolId);
+
+    // Update the user table with the new tool
+    params = {
+      TableName: USERS_TABLE,
+      Key: {
+        "id": id
+      },
+      UpdateExpression: "set tools = :newToolsArray",
+      ExpressionAttributeValues: {
+        ":newToolsArray": toolsArray
+      },
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    response = await this.dynamo.update(params).promise();
+
+    let lRtnJson = {
+      tools: response.Attributes.tools,
+      success: true
+    };
+
+    return lRtnJson;
+
+  }; //addNewUserTool
 
   /**
    * getPurchases - Get the purchases of the user
@@ -153,46 +201,21 @@ module.exports = class DynamoDAO {
 
     var toolsObject = {};
     var index = 0;
-    data.Items[0].tools.forEach(function(value) {
+    data.Items[0].tools.forEach(function (value) {
       index++;
-      var toolKey = ":id"+index;
+      var toolKey = ":id" + index;
       toolsObject[toolKey.toString()] = value;
     });
 
     params = {
       TableName: TOOLS_TABLE,
       ProjectionExpression: "id, tool_name, image_url, description",
-      FilterExpression : "id IN ("+Object.keys(toolsObject).toString()+ ")",
-      ExpressionAttributeValues : toolsObject
-      
+      FilterExpression: "id IN (" + Object.keys(toolsObject).toString() + ")",
+      ExpressionAttributeValues: toolsObject
+
     };
 
     data = await this.dynamo.scan(params).promise();
-
-
-    // Now loop around the tools returned and get the id, name, and URL and push to 
-    // the lTooldRtn array;
-    // data.Items.forEach(function (item) {
-
-    //   item.tools.forEach(async function (toolItemId, ) {
-
-    //     params = {
-    //       IndexName: TOOLS_INDEX,
-    //       TableName: TOOLS_TABLE,
-    //       ProjectionExpression: "id, name, url, desc",
-    //       KeyConditionExpression: "id = :id",
-    //       ExpressionAttributeValues: {
-    //         ":id": toolItemId
-    //       }
-    //     };
-    //     // Scan for the item in the user-id-index
-    //     let lRtnData = await dynamoInstance.query(params).promise();
-
-    //     lToolsRtn.push(lRtnData.Items);
-
-
-    //   });
-    // });
 
     return data.Items;
   }; // getUserTools
@@ -218,30 +241,30 @@ var getToolDetail = toolId => {
 
   return new Promise(async function (resolve, reject) {
 
-  base('MAIN').select({
-    filterByFormula: filterFormula,
-    maxRecords: 1,
-    view: "view"
-  }).eachPage(function page(records, fetchNextPage) {
+    base('MAIN').select({
+      filterByFormula: filterFormula,
+      maxRecords: 1,
+      view: "view"
+    }).eachPage(function page(records, fetchNextPage) {
 
-    records.forEach(function (record) {
-      console.log('Retrieved', record.get('id'));
-      lRtnJson = record;
+      records.forEach(function (record) {
+        console.log('Retrieved', record.get('id'));
+        lRtnJson = record;
+      });
+
+      // To fetch the next page of records, call `fetchNextPage`.
+      // If there are more records, `page` will get called again.
+      // If there are no more records, `done` will get called.
+      fetchNextPage();
+
+    }, function done(err) {
+      if (err) {
+        console.log(err);
+        reject(lRtnJson);
+      } else {
+        resolve(lRtnJson);
+      }
     });
-
-    // To fetch the next page of records, call `fetchNextPage`.
-    // If there are more records, `page` will get called again.
-    // If there are no more records, `done` will get called.
-    fetchNextPage();
-
-  }, function done(err) {
-    if (err) {
-      console.log(err);
-      reject (lRtnJson);
-    } else {
-      resolve (lRtnJson);
-    }
-  });
 
   }); // Promise
 

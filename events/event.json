@@ -1,8 +1,8 @@
 {
-  "body": {},
+  "body": {"toolId": "1003"},
   "resource": "/{proxy+}",
-  "path": "/getUserTools",
-  "httpMethod": "GET",
+  "path": "/addNewUserTool",
+  "httpMethod": "POST",
   "isBase64Encoded": true,
   "queryStringParameters": {
     "userId": "sadf3ds-ewfszxf-erxce-4dsdfxx"
@@ -10,7 +10,7 @@
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/getUserTools"
+    "proxy": "/addNewUserTool"
   },
   "stageVariables": {
   },
@@ -110,9 +110,9 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/getUserTools",
+    "path": "/addNewUserTool",
     "resourcePath": "/{proxy+}",
-    "httpMethod": "GET",
+    "httpMethod": "POST",
     "apiId": "1234567890",
     "protocol": "HTTP/1.1"
   }

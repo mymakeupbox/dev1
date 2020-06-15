@@ -11,7 +11,8 @@ const ResourcesEnum = {
     UPDATE_SUBSCRIBER: '/updateSubscriber',
     GET_PURCHASES: '/getPurchases',
     ADD_NEW_USER: '/addNewUser',
-    GET_USER_TOOLS: '/getUserTools'
+    GET_USER_TOOLS: '/getUserTools',
+    ADD_NEW_USER_TOOL: '/addNewUserTool'
 }
 
 const HttpCodesEnum = {
@@ -175,6 +176,28 @@ exports.handler = async (event, context) => {
             }
 
             break;
+
+
+        case ResourcesEnum.ADD_NEW_USER_TOOL:
+
+        try {
+            const userId = event.queryStringParameters.userId;
+            const request = JSON.parse(event.body);
+
+            // Get a new instance of the database controller and then add a new user.
+            const response = await DynamoController.getInstance(loggingHelper).addNewUserTool(userId, request.toolId);
+
+            return responseHelper.getSuccessfulResponse(
+                new Response(HttpCodesEnum.OK, JSON.stringify(response))
+            );
+
+        } catch (err) {
+            // return an error if anythin in the try block fails
+            return responseHelper.getErrorResponse(err);
+        }
+
+        break;
+
 
 
         default:

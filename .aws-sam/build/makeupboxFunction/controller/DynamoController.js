@@ -48,6 +48,12 @@ module.exports = class DynamoController {
         return this.dynamoDao.addItem(item);
     }
 
+    // Add new user tool
+    async addNewUserTool(id, toolId) {
+        this.loggingHelper.info('Adding new user tool', toolId);
+        return this.dynamoDao.addNewUserTool(id, toolId);
+    }
+
     // Set the user as a subscriber
     async updateSubscriber(id, subscriberValue) {
         this.loggingHelper.info('Changing user %s subscriber flag', id);
