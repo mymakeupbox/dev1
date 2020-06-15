@@ -73,7 +73,7 @@ module.exports = class DynamoDAO {
     let params = {
       IndexName: USERS_INDEX,
       TableName: USERS_TABLE,
-      ProjectionExpression: "subscriber",
+      ProjectionExpression: "subscriberFlag",
       KeyConditionExpression: "id = :id",
       ExpressionAttributeValues: {
         ":id": id
@@ -97,7 +97,7 @@ module.exports = class DynamoDAO {
       Key: {
         id: id
       },
-      UpdateExpression: `SET subscriber = :subscriber`,
+      UpdateExpression: `SET subscriberFlag = :subscriber`,
       ExpressionAttributeValues: {
         ":subscriber": subscriberValue
       },
@@ -209,7 +209,7 @@ module.exports = class DynamoDAO {
 
     params = {
       TableName: TOOLS_TABLE,
-      ProjectionExpression: "id, tool_name, image_url, description",
+      ProjectionExpression: "id, toolName, imageUrl, toolDescription",
       FilterExpression: "id IN (" + Object.keys(toolsObject).toString() + ")",
       ExpressionAttributeValues: toolsObject
 
