@@ -56,6 +56,21 @@ Resources:
           Properties:
             Path: /addNewUserTool
             Method: post
+        addSkinTone:
+          Type: Api
+          Properties:
+            Path: /addSkinTone
+            Method: post
+        addEyeShape:
+          Type: Api
+          Properties:
+            Path: /addEyeShape
+            Method: post
+        updateUsageCount:
+          Type: Api
+          Properties:
+            Path: /updateUsageCount
+            Method: post
 Outputs:
   makeupboxApi:
     Description: API Gateway endpoint URL for Prod stage for makeupbox function

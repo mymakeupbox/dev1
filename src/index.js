@@ -12,7 +12,11 @@ const ResourcesEnum = {
     GET_PURCHASES: '/getPurchases',
     ADD_NEW_USER: '/addNewUser',
     GET_USER_TOOLS: '/getUserTools',
-    ADD_NEW_USER_TOOL: '/addNewUserTool'
+    ADD_NEW_USER_TOOL: '/addNewUserTool',
+    ADD_SKIN_TONE: '/addSkinTone',
+    ADD_EYE_SHAPE: '/addEyeShape',
+    UPDATE_USAGE_COUNT: '/updateUsageCount',
+    USER_LOGIN:'/userLogin'
 }
 
 const HttpCodesEnum = {
@@ -27,9 +31,6 @@ const HttpCodesEnum = {
     SERVER_ERROR: 500,
     NOT_IMPLEMENTED: 501
 };
-
-
-
 
 
 /**
@@ -136,7 +137,7 @@ exports.handler = async (event, context) => {
             break;
 
 
-        // Add a new user
+            // Add a new user
         case ResourcesEnum.ADD_NEW_USER:
 
             try {
@@ -180,23 +181,120 @@ exports.handler = async (event, context) => {
 
         case ResourcesEnum.ADD_NEW_USER_TOOL:
 
-        try {
-            const userId = event.queryStringParameters.userId;
-            const request = JSON.parse(event.body);
+            try {
+                const userId = event.queryStringParameters.userId;
+                const request = JSON.parse(event.body);
 
-            // Get a new instance of the database controller and then add a new user.
-            const response = await DynamoController.getInstance(loggingHelper).addNewUserTool(userId, request.toolId);
+                // Get a new instance of the database controller and then add a new user.
+                const response = await DynamoController.getInstance(loggingHelper).addNewUserTool(userId, request.toolId);
 
-            return responseHelper.getSuccessfulResponse(
-                new Response(HttpCodesEnum.OK, JSON.stringify(response))
-            );
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
 
-        } catch (err) {
-            // return an error if anythin in the try block fails
-            return responseHelper.getErrorResponse(err);
-        }
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
 
-        break;
+            break;
+
+
+            // Add a new user
+        case ResourcesEnum.ADD_SKIN_TONE:
+
+            try {
+
+                const userId = event.queryStringParameters.userId;
+                const request = JSON.parse(event.body);
+
+                console.log('request = ', request);
+
+                // Get a new instance of the database controller and then add a new user.
+                const response = await DynamoController.getInstance(loggingHelper).addSkinTone(userId, request.skinTone);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
+
+
+            case ResourcesEnum.ADD_EYE_SHAPE:
+
+            try {
+
+                const userId = event.queryStringParameters.userId;
+                const request = JSON.parse(event.body);
+
+                console.log('request = ', request);
+
+                // Get a new instance of the database controller and then add a new user.
+                const response = await DynamoController.getInstance(loggingHelper).addEyeShape(userId, request.eyeShape);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
+
+            // Update the usage count of the user
+            case ResourcesEnum.UPDATE_USAGE_COUNT:
+
+            try {
+
+                const userId = event.queryStringParameters.userId;
+                
+
+                // Get a new instance of the database controller and update the usage count
+                const response = await DynamoController.getInstance(loggingHelper).updateUsageCount(userId);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
+
+            /**
+             * userLogin - login the user by increasing the usage coun and also 
+             * the streak if needed
+             */
+            case ResourcesEnum.USER_LOGIN:
+
+            try {
+
+                const userId = event.queryStringParameters.userId;
+                const request = JSON.parse(event.body);
+                
+
+                // Get a new instance of the database controller and update the usage count
+                const response = await DynamoController.getInstance(loggingHelper).updateUsageCount(userId, request.currentTimeStamp);
+
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
 
 
 

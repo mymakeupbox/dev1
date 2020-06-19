@@ -61,4 +61,24 @@ module.exports = class DynamoController {
 
         return this.dynamoDao.updateSubscriber(id, subscriberValue);
     }
+
+    // add a new skin tone
+    async addSkinTone(id, skinTone) {
+        this.loggingHelper.info('Adding new skin tone for user', id);
+        return this.dynamoDao.addSkinTone(id, skinTone);
+    }
+
+    // add a new eye shape
+    async addEyeShape(id, eyeShape) {
+        this.loggingHelper.info('Adding new eye shapefor user', id);
+        return this.dynamoDao.addEyeShape(id, eyeShape);
+    }
+
+
+    // Update visit count
+    async updateUsageCount(id) {
+        this.loggingHelper.info('Update the usage count', id);
+        return this.dynamoDao.updateUsageCount(id);
+    }
+
 }

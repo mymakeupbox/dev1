@@ -61,4 +61,44 @@ module.exports = class DynamoController {
 
         return this.dynamoDao.updateSubscriber(id, subscriberValue);
     }
+
+    // add a new skin tone
+    async addSkinTone(id, skinTone) {
+        this.loggingHelper.info('Adding new skin tone for user', id);
+        return this.dynamoDao.addSkinTone(id, skinTone);
+    }
+
+    // add a new eye shape
+    async addEyeShape(id, eyeShape) {
+        this.loggingHelper.info('Adding new eye shapefor user', id);
+        return this.dynamoDao.addEyeShape(id, eyeShape);
+    }
+
+
+    // Update visit count
+    async updateUsageCount(id) {
+        this.loggingHelper.info('Update the usage count', id);
+        return this.dynamoDao.updateUsageCount(id);
+    }
+
+
+    async userLogin(id, currentTimeStamp) {
+        this.loggingHelper.info('User Login', id);
+        let updateStreak = false;
+
+        // Calculate if we need to update the streak
+
+        // Get the lastUsedTimeStamp from the database
+        let lastUsedTimeStamp = await this.dynamoDao.getLastUsedTimestamp(id);
+
+        if (lastUsedTimeStamp) {
+            lastUsedTimeStamp = lastUsedTimeStamp.rtnData.Items[0].lastUsedTimestamp;
+        }
+
+
+
+
+        return this.dynamoDao.userLogin(id, updateStreak);
+    }
+
 }

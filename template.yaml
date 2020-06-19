@@ -58,7 +58,21 @@ Resources:
           Properties:
             Path: /addNewUserTool
             Method: post
-               
+        addSkinTone:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /addSkinTone
+            Method: post
+        addEyeShape:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /addEyeShape
+            Method: post
+        updateUsageCount:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /updateUsageCount
+            Method: post    
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

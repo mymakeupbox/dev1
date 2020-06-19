@@ -221,9 +221,162 @@ module.exports = class DynamoDAO {
   }; // getUserTools
 
 
+
+  /**
+   * addSkinTone
+   * Add new skin tone to the user
+   */
+  async addSkinTone(id, skinTone) {
+    this.loggingHelper.info("Update skin tone to ", skinTone);
+    const params = {
+      TableName: USERS_TABLE,
+      Key: {
+        id: id
+      },
+      UpdateExpression: `SET skinTone = :newSkinTone`,
+      ExpressionAttributeValues: {
+        ":newSkinTone": skinTone
+      },
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    let lDbUpdateResult = this.dynamo.update(params).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    };
+
+    return response;
+  }; // addSkinTone
+
+  /**
+   * addEyeShape
+   * Add eye shape
+   */
+  async addEyeShape(id, eyeShape) {
+    this.loggingHelper.info("Update eye shapeto ", eyeShape);
+    const params = {
+      TableName: USERS_TABLE,
+      Key: {
+        id: id
+      },
+      UpdateExpression: `SET eyeShape = :newEyeShape`,
+      ExpressionAttributeValues: {
+        ":newEyeShape": eyeShape
+      },
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    let lDbUpdateResult = await this.dynamo.update(params).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // addEyeShape
+
+
+  /**
+   * updateUsageCount
+   * add 1 to the usage count
+   */
+  async updateUsageCount(id) {
+    this.loggingHelper.info("Update usage count user id =  ", id);
+
+    let lDbUpdateResult = await this.dynamo.update({
+      TableName: USERS_TABLE,
+      Key: {
+        "id": id
+      },
+      UpdateExpression: "ADD visitCount :increment",
+      ExpressionAttributeValues: {
+        ":increment": 1
+      }
+    }).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // updateUsageCount
+
+  /**
+   * getLastUsedTimestamp
+   * Get the last used time stamp
+   */
+  async getLastUsedTimestamp(id) {
+    this.loggingHelper.info("Get the lastUsedTimestamp=  ", id);
+
+    let lDbUpdateResult = await this.dynamo.query({
+      IndexName: USERS_INDEX,
+      TableName: USERS_TABLE,
+      ProjectionExpression:"lastUsedTimestamp",
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": id
+      }
+    }).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // updateUsageCount
+
+
+
+
+
+  /**
+   * userLogin
+   * add 1 to the streak count and return the user details
+   */
+  async userLogin(id, updatestreak) {
+    this.loggingHelper.info("userLogin - user id =  ", id);
+
+
+    // Update the number of visits by 1
+    let lDbUpdateResult = await this.dynamo.update({
+      TableName: USERS_TABLE,
+      Key: {
+        "id": id
+      },
+      UpdateExpression: "ADD visitCount :increment",
+      ExpressionAttributeValues: {
+        ":increment": 1
+      }
+    }).promise();
+
+    // If we need to update the streak do so 
+    if (updatestreak){
+
+      lDbUpdateResult = await this.dynamo.update({
+        TableName: USERS_TABLE,
+        Key: {
+          "id": id
+        },
+        UpdateExpression: "ADD streakCount :increment",
+        ExpressionAttributeValues: {
+          ":increment": 1
+        }
+      }).promise();
+    }
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // userLogin
 };
-
-
 
 /**
  * getToolDetail 

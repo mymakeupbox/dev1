@@ -221,9 +221,90 @@ module.exports = class DynamoDAO {
   }; // getUserTools
 
 
+
+  /**
+   * addSkinTone
+   * Add new skin tone to the user
+   */
+  async addSkinTone(id, skinTone) {
+    this.loggingHelper.info("Update skin tone to ", skinTone);
+    const params = {
+      TableName: USERS_TABLE,
+      Key: {
+        id: id
+      },
+      UpdateExpression: `SET skinTone = :newSkinTone`,
+      ExpressionAttributeValues: {
+        ":newSkinTone": skinTone
+      },
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    let lDbUpdateResult = this.dynamo.update(params).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    };
+
+    return response;
+  }; // addSkinTone
+
+  /**
+   * addEyeShape
+   * Add eye shape
+   */
+  async addEyeShape(id, eyeShape) {
+    this.loggingHelper.info("Update eye shapeto ", eyeShape);
+    const params = {
+      TableName: USERS_TABLE,
+      Key: {
+        id: id
+      },
+      UpdateExpression: `SET eyeShape = :newEyeShape`,
+      ExpressionAttributeValues: {
+        ":newEyeShape": eyeShape
+      },
+      ReturnValues: "UPDATED_NEW"
+    };
+
+    let lDbUpdateResult = await this.dynamo.update(params).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // addEyeShape
+
+
+  /**
+   * updateUsageCount
+   * add 1 to the usage count
+   */
+  async updateUsageCount(id) {
+    this.loggingHelper.info("Update usage count user id =  ", id);
+
+    let lDbUpdateResult = await this.dynamo.update({
+      TableName: USERS_TABLE,
+      Key: {
+        "id": id
+      },
+      UpdateExpression: "ADD visitCount :increment",
+      ExpressionAttributeValues: {
+        ":increment": 1
+      }
+    }).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // updateUsageCount
 };
-
-
 
 /**
  * getToolDetail 

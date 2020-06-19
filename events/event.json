@@ -1,7 +1,7 @@
 {
-  "body": {"toolId": "1003"},
+  "body": "{}",
   "resource": "/{proxy+}",
-  "path": "/addNewUserTool",
+  "path": "/updateUsageCount",
   "httpMethod": "POST",
   "isBase64Encoded": true,
   "queryStringParameters": {
@@ -10,7 +10,7 @@
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/addNewUserTool"
+    "proxy": "/updateUsageCount"
   },
   "stageVariables": {
   },
@@ -110,7 +110,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/addNewUserTool",
+    "path": "/updateUsageCount",
     "resourcePath": "/{proxy+}",
     "httpMethod": "POST",
     "apiId": "1234567890",
