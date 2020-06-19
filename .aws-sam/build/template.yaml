@@ -71,6 +71,11 @@ Resources:
           Properties:
             Path: /updateUsageCount
             Method: post
+        userlogin:
+          Type: Api
+          Properties:
+            Path: /userLogin
+            Method: post
 Outputs:
   makeupboxApi:
     Description: API Gateway endpoint URL for Prod stage for makeupbox function

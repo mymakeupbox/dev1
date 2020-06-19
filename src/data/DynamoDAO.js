@@ -338,7 +338,7 @@ module.exports = class DynamoDAO {
    * userLogin
    * add 1 to the streak count and return the user details
    */
-  async userLogin(id, updatestreak) {
+  async userLogin(id, updatestreak, currentTimestamp) {
     this.loggingHelper.info("userLogin - user id =  ", id);
 
 
@@ -348,9 +348,10 @@ module.exports = class DynamoDAO {
       Key: {
         "id": id
       },
-      UpdateExpression: "ADD visitCount :increment",
+      UpdateExpression: "ADD visitCount :increment SET lastUsedTimestamp = :newTimestamp",
       ExpressionAttributeValues: {
-        ":increment": 1
+        ":increment": 1,
+        ":newTimestamp": currentTimestamp
       }
     }).promise();
 

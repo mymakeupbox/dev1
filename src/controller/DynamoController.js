@@ -75,30 +75,29 @@ module.exports = class DynamoController {
     }
 
 
-    // Update visit count
+    /**
+     * updateUsageCount - Update the usage count in the visitCount field
+     * @param {string} id 
+     */
     async updateUsageCount(id) {
         this.loggingHelper.info('Update the usage count', id);
         return this.dynamoDao.updateUsageCount(id);
     }
 
-
-    async userLogin(id, currentTimeStamp) {
+    /*
+     * userLogin - Update the visitCount and also update the streak count if needs be
+     * @param {string} id 
+     * @param {string} currentTimeStamp 
+     */
+    async userLogin(id, updateStreak, currentTimeStamp) {
         this.loggingHelper.info('User Login', id);
-        let updateStreak = false;
-
-        // Calculate if we need to update the streak
-
-        // Get the lastUsedTimeStamp from the database
-        let lastUsedTimeStamp = await this.dynamoDao.getLastUsedTimestamp(id);
-
-        if (lastUsedTimeStamp) {
-            lastUsedTimeStamp = lastUsedTimeStamp.rtnData.Items[0].lastUsedTimestamp;
-        }
+        return this.dynamoDao.userLogin(id, updateStreak, currentTimeStamp);
+    }
 
 
-
-
-        return this.dynamoDao.userLogin(id, updateStreak);
+    async getLastUsedTimestamp(id) {
+        this.loggingHelper.info('User Login', id);
+        return this.dynamoDao.getLastUsedTimestamp(id);
     }
 
 }

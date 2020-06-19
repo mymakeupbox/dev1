@@ -304,6 +304,79 @@ module.exports = class DynamoDAO {
 
     return response;
   }; // updateUsageCount
+
+  /**
+   * getLastUsedTimestamp
+   * Get the last used time stamp
+   */
+  async getLastUsedTimestamp(id) {
+    this.loggingHelper.info("Get the lastUsedTimestamp=  ", id);
+
+    let lDbUpdateResult = await this.dynamo.query({
+      IndexName: USERS_INDEX,
+      TableName: USERS_TABLE,
+      ProjectionExpression:"lastUsedTimestamp",
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": id
+      }
+    }).promise();
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // updateUsageCount
+
+
+
+
+
+  /**
+   * userLogin
+   * add 1 to the streak count and return the user details
+   */
+  async userLogin(id, updatestreak, currentTimestamp) {
+    this.loggingHelper.info("userLogin - user id =  ", id);
+
+
+    // Update the number of visits by 1
+    let lDbUpdateResult = await this.dynamo.update({
+      TableName: USERS_TABLE,
+      Key: {
+        "id": id
+      },
+      UpdateExpression: "ADD visitCount :increment SET lastUsedTimestamp = :newTimestamp",
+      ExpressionAttributeValues: {
+        ":increment": 1,
+        ":newTimestamp": currentTimestamp
+      }
+    }).promise();
+
+    // If we need to update the streak do so 
+    if (updatestreak){
+
+      lDbUpdateResult = await this.dynamo.update({
+        TableName: USERS_TABLE,
+        Key: {
+          "id": id
+        },
+        UpdateExpression: "ADD streakCount :increment",
+        ExpressionAttributeValues: {
+          ":increment": 1
+        }
+      }).promise();
+    }
+
+    let response = {
+      "rtnData": lDbUpdateResult,
+      "success": true
+    }
+
+    return response;
+  }; // userLogin
 };
 
 /**

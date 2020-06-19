@@ -1,7 +1,7 @@
 {
-  "body": "{}",
+  "body": "{\"currentTimeStamp\": \"2020-06-10T12:26:10Z\"}",
   "resource": "/{proxy+}",
-  "path": "/updateUsageCount",
+  "path": "/userLogin",
   "httpMethod": "POST",
   "isBase64Encoded": true,
   "queryStringParameters": {
@@ -10,7 +10,7 @@
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/updateUsageCount"
+    "proxy": "/userLogin"
   },
   "stageVariables": {
   },
@@ -110,7 +110,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/updateUsageCount",
+    "path": "/addEyeShape",
     "resourcePath": "/{proxy+}",
     "httpMethod": "POST",
     "apiId": "1234567890",

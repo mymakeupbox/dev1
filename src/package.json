@@ -9,10 +9,11 @@
   "author": "Ethan Richardson",
   "license": "ISC",
   "dependencies": {
+    "airtable": "^0.8.1",
     "aws-sdk": "^2.690.0",
+    "moment": "^2.27.0",
     "uuid": "^7.0.3",
-    "uuidv4": "^6.1.0",
-    "airtable": "^0.8.1"
+    "uuidv4": "^6.1.0"
   },
   "devDependencies": {}
 }

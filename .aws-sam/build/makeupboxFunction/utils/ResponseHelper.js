@@ -59,7 +59,7 @@ module.exports =  class ResponseHelper {
 
     getErrorResponse(error) {
         this.statusCode = (error.statusCode) ? error.statusCode : HttpCodesEnum.SERVER_ERROR;
-        this.body = JSON.stringify({ statusCode: this.statusCode, message: error.message, error });
+        this.body = JSON.stringify({ statusCode: this.statusCode, message: error.message, error, success: false });
         const errorResponse = {
             statusCode: this.statusCode,
             headers: this.getHeaders(),

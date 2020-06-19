@@ -4,6 +4,7 @@ const Response = require('./models/Response');
 const LoggingHelper = require('./utils/LoggingHelper');
 const ResponseHelper = require('./utils/ResponseHelper');
 const User = require('./models/User');
+const moment = require('moment');
 
 const ResourcesEnum = {
     RETRIEVE_USER: "/getUserById",
@@ -16,7 +17,7 @@ const ResourcesEnum = {
     ADD_SKIN_TONE: '/addSkinTone',
     ADD_EYE_SHAPE: '/addEyeShape',
     UPDATE_USAGE_COUNT: '/updateUsageCount',
-    USER_LOGIN:'/userLogin'
+    USER_LOGIN: '/userLogin'
 }
 
 const HttpCodesEnum = {
@@ -225,7 +226,7 @@ exports.handler = async (event, context) => {
             break;
 
 
-            case ResourcesEnum.ADD_EYE_SHAPE:
+        case ResourcesEnum.ADD_EYE_SHAPE:
 
             try {
 
@@ -249,12 +250,12 @@ exports.handler = async (event, context) => {
             break;
 
             // Update the usage count of the user
-            case ResourcesEnum.UPDATE_USAGE_COUNT:
+        case ResourcesEnum.UPDATE_USAGE_COUNT:
 
             try {
 
                 const userId = event.queryStringParameters.userId;
-                
+
 
                 // Get a new instance of the database controller and update the usage count
                 const response = await DynamoController.getInstance(loggingHelper).updateUsageCount(userId);
@@ -274,16 +275,38 @@ exports.handler = async (event, context) => {
              * userLogin - login the user by increasing the usage coun and also 
              * the streak if needed
              */
-            case ResourcesEnum.USER_LOGIN:
+        case ResourcesEnum.USER_LOGIN:
 
             try {
 
                 const userId = event.queryStringParameters.userId;
                 const request = JSON.parse(event.body);
-                
+
+                //The update streak
+                let updateStreak = false;
+
+                // Get the lastUsedTimeStamp from the database
+                let lastUsedTimeStamp = await DynamoController.getInstance(loggingHelper).getLastUsedTimestamp(userId);
+
+                if (lastUsedTimeStamp) {
+                    lastUsedTimeStamp = lastUsedTimeStamp.rtnData.Items[0].lastUsedTimestamp;
+
+                    // Calculate if we need to update the streak
+                    var startDate = moment.utc(lastUsedTimeStamp);
+                    var endDate = moment.utc(request.currentTimeStamp);
+
+                    console.log('...difference = ', endDate.diff(startDate, 'days') );
+                    
+
+                    if (endDate.diff(startDate, 'days') === 1) {
+
+                        // set the flag to update the streak
+                        updateStreak = true;
+                    }
+                }
 
                 // Get a new instance of the database controller and update the usage count
-                const response = await DynamoController.getInstance(loggingHelper).updateUsageCount(userId, request.currentTimeStamp);
+                const response = await DynamoController.getInstance(loggingHelper).userLogin(userId, updateStreak, request.currentTimeStamp);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -293,7 +316,6 @@ exports.handler = async (event, context) => {
                 // return an error if anythin in the try block fails
                 return responseHelper.getErrorResponse(err);
             }
-
             break;
 
 

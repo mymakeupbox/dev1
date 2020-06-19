@@ -75,10 +75,29 @@ module.exports = class DynamoController {
     }
 
 
-    // Update visit count
+    /**
+     * updateUsageCount - Update the usage count in the visitCount field
+     * @param {string} id 
+     */
     async updateUsageCount(id) {
         this.loggingHelper.info('Update the usage count', id);
         return this.dynamoDao.updateUsageCount(id);
+    }
+
+    /*
+     * userLogin - Update the visitCount and also update the streak count if needs be
+     * @param {string} id 
+     * @param {string} currentTimeStamp 
+     */
+    async userLogin(id, updateStreak, currentTimeStamp) {
+        this.loggingHelper.info('User Login', id);
+        return this.dynamoDao.userLogin(id, updateStreak, currentTimeStamp);
+    }
+
+
+    async getLastUsedTimestamp(id) {
+        this.loggingHelper.info('User Login', id);
+        return this.dynamoDao.getLastUsedTimestamp(id);
     }
 
 }
