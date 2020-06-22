@@ -7,17 +7,17 @@ const User = require('./models/User');
 const moment = require('moment');
 
 const ResourcesEnum = {
-    RETRIEVE_USER: "/getUserById",
-    CHECK_SUBSCRIBER: "/checkSubscriberById",
-    UPDATE_SUBSCRIBER: '/updateSubscriber',
-    GET_PURCHASES: '/getPurchases',
-    ADD_NEW_USER: '/addNewUser',
-    GET_USER_TOOLS: '/getUserTools',
-    ADD_NEW_USER_TOOL: '/addNewUserTool',
-    ADD_SKIN_TONE: '/addSkinTone',
-    ADD_EYE_SHAPE: '/addEyeShape',
-    UPDATE_USAGE_COUNT: '/updateUsageCount',
-    USER_LOGIN: '/userLogin'
+    RETRIEVE_USER: '/user/getUserById',
+    CHECK_SUBSCRIBER: '/user/checkSubscriberById',
+    UPDATE_SUBSCRIBER: '/user/updateSubscriber',
+    GET_PURCHASES: '/user/getPurchases',
+    ADD_NEW_USER: '/user/addNewUser',
+    GET_USER_TOOLS: '/user/getUserTools',
+    ADD_NEW_USER_TOOL: '/user/addNewUserTool',
+    ADD_SKIN_TONE: '/user/addSkinTone',
+    ADD_EYE_SHAPE: '/user/addEyeShape',
+    UPDATE_USAGE_COUNT: '/user/updateUsageCount',
+    USER_LOGIN: '/user/userLogin'
 }
 
 const HttpCodesEnum = {

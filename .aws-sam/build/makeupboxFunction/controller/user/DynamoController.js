@@ -1,4 +1,4 @@
-const DynamoDAO = require('../../data/users/DynamoDAO');
+const DynamoDAO = require('../../data/user/DynamoDAO');
 const AWSService = require('../AWSService');
 
 module.exports = class DynamoController {

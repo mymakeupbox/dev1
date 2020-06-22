@@ -26,57 +26,57 @@ Resources:
         user:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getUserById
+            Path: /user/getUserById
             Method: get
         subscriber:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /checkSubscriberById
+            Path: /user/checkSubscriberById
             Method: get
         updateSubscriber:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /updateSubscriber
+            Path: /user/updateSubscriber
             Method: post
         getPurchases:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getPurchases
+            Path: /user/getPurchases
             Method: get
         addNewUser:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /addNewUser
+            Path: /user/addNewUser
             Method: post
         getUserTools:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /getUserTools
+            Path: /user/getUserTools
             Method: get
         addNewUserTool:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /addNewUserTool
+            Path: /user/addNewUserTool
             Method: post
         addSkinTone:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /addSkinTone
+            Path: /user/addSkinTone
             Method: post
         addEyeShape:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /addEyeShape
+            Path: /user/addEyeShape
             Method: post
         updateUsageCount:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /updateUsageCount
+            Path: /user/updateUsageCount
             Method: post    
         userlogin:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /userLogin
+            Path: /user/userLogin
             Method: post
             
 Outputs:

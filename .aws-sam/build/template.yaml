@@ -24,57 +24,57 @@ Resources:
         user:
           Type: Api
           Properties:
-            Path: /getUserById
+            Path: /user/getUserById
             Method: get
         subscriber:
           Type: Api
           Properties:
-            Path: /checkSubscriberById
+            Path: /user/checkSubscriberById
             Method: get
         updateSubscriber:
           Type: Api
           Properties:
-            Path: /updateSubscriber
+            Path: /user/updateSubscriber
             Method: post
         getPurchases:
           Type: Api
           Properties:
-            Path: /getPurchases
+            Path: /user/getPurchases
             Method: get
         addNewUser:
           Type: Api
           Properties:
-            Path: /addNewUser
+            Path: /user/addNewUser
             Method: post
         getUserTools:
           Type: Api
           Properties:
-            Path: /getUserTools
+            Path: /user/getUserTools
             Method: get
         addNewUserTool:
           Type: Api
           Properties:
-            Path: /addNewUserTool
+            Path: /user/addNewUserTool
             Method: post
         addSkinTone:
           Type: Api
           Properties:
-            Path: /addSkinTone
+            Path: /user/addSkinTone
             Method: post
         addEyeShape:
           Type: Api
           Properties:
-            Path: /addEyeShape
+            Path: /user/addEyeShape
             Method: post
         updateUsageCount:
           Type: Api
           Properties:
-            Path: /updateUsageCount
+            Path: /user/updateUsageCount
             Method: post
         userlogin:
           Type: Api
           Properties:
-            Path: /userLogin
+            Path: /user/userLogin
             Method: post
 Outputs:
   makeupboxApi:
