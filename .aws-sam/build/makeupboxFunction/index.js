@@ -1,5 +1,5 @@
 const RequestError = require('./models/RequestError');
-const DynamoController = require('./controller/DynamoController');
+const DynamoController = require('./controller/user/DynamoController');
 const Response = require('./models/Response');
 const LoggingHelper = require('./utils/LoggingHelper');
 const ResponseHelper = require('./utils/ResponseHelper');
