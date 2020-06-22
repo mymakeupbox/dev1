@@ -1,5 +1,5 @@
 const RequestError = require('./models/RequestError');
-const DynamoController = require('./controller/user/DynamoController');
+const USER_DYNAMO_CONTROLLER = require('./controller/user/DynamoController');
 const Response = require('./models/Response');
 const LoggingHelper = require('./utils/LoggingHelper');
 const ResponseHelper = require('./utils/ResponseHelper');
@@ -7,17 +7,22 @@ const User = require('./models/User');
 const moment = require('moment');
 
 const ResourcesEnum = {
-    RETRIEVE_USER: '/user/getUserById',
-    CHECK_SUBSCRIBER: '/user/checkSubscriberById',
-    UPDATE_SUBSCRIBER: '/user/updateSubscriber',
-    GET_PURCHASES: '/user/getPurchases',
-    ADD_NEW_USER: '/user/addNewUser',
-    GET_USER_TOOLS: '/user/getUserTools',
-    ADD_NEW_USER_TOOL: '/user/addNewUserTool',
-    ADD_SKIN_TONE: '/user/addSkinTone',
-    ADD_EYE_SHAPE: '/user/addEyeShape',
-    UPDATE_USAGE_COUNT: '/user/updateUsageCount',
-    USER_LOGIN: '/user/userLogin'
+    USER: {
+        RETRIEVE_USER: '/user/getUserById',
+        CHECK_SUBSCRIBER: '/user/checkSubscriberById',
+        UPDATE_SUBSCRIBER: '/user/updateSubscriber',
+        GET_PURCHASES: '/user/getPurchases',
+        ADD_NEW_USER: '/user/addNewUser',
+        GET_USER_TOOLS: '/user/getUserTools',
+        ADD_NEW_USER_TOOL: '/user/addNewUserTool',
+        ADD_SKIN_TONE: '/user/addSkinTone',
+        ADD_EYE_SHAPE: '/user/addEyeShape',
+        UPDATE_USAGE_COUNT: '/user/updateUsageCount',
+        USER_LOGIN: '/user/userLogin'
+    },
+    PURCHASES:{
+        
+    }
 }
 
 const HttpCodesEnum = {
@@ -57,13 +62,13 @@ exports.handler = async (event, context) => {
     switch (event.path) {
 
         // process the API call to /retrieveUser
-        case ResourcesEnum.RETRIEVE_USER:
+        case ResourcesEnum.USER.RETRIEVE_USER:
             try {
 
                 const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).getUserById(userId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).getUserById(userId);
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
                 );
@@ -75,13 +80,13 @@ exports.handler = async (event, context) => {
 
             break;
             // Check if the user is subscribe or not
-        case ResourcesEnum.CHECK_SUBSCRIBER:
+        case ResourcesEnum.USER.CHECK_SUBSCRIBER:
 
             try {
                 const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).checkSubscriber(userId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).checkSubscriber(userId);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -94,13 +99,13 @@ exports.handler = async (event, context) => {
 
             break;
             // Get purchases for user Id
-        case ResourcesEnum.GET_PURCHASES:
+        case ResourcesEnum.USER.GET_PURCHASES:
 
             try {
                 const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).getPurchases(userId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).getPurchases(userId);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -114,7 +119,7 @@ exports.handler = async (event, context) => {
             break;
 
             //  Update the subscriber flag
-        case ResourcesEnum.UPDATE_SUBSCRIBER:
+        case ResourcesEnum.USER.UPDATE_SUBSCRIBER:
             try {
                 const request = JSON.parse(event.body);
 
@@ -124,7 +129,7 @@ exports.handler = async (event, context) => {
                 const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).updateSubscriber(userId, request.subscriberFlag);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).updateSubscriber(userId, request.subscriberFlag);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -139,7 +144,7 @@ exports.handler = async (event, context) => {
 
 
             // Add a new user
-        case ResourcesEnum.ADD_NEW_USER:
+        case ResourcesEnum.USER.ADD_NEW_USER:
 
             try {
                 const request = JSON.parse(event.body);
@@ -147,7 +152,7 @@ exports.handler = async (event, context) => {
                 console.log('request = ', request);
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).addNewUser(request);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).addNewUser(request);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -160,13 +165,13 @@ exports.handler = async (event, context) => {
 
             break;
 
-        case ResourcesEnum.GET_USER_TOOLS:
+        case ResourcesEnum.USER.GET_USER_TOOLS:
 
             try {
                 const userId = event.queryStringParameters.userId;
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).getUserTools(userId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).getUserTools(userId);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -180,14 +185,14 @@ exports.handler = async (event, context) => {
             break;
 
 
-        case ResourcesEnum.ADD_NEW_USER_TOOL:
+        case ResourcesEnum.USER.ADD_NEW_USER_TOOL:
 
             try {
                 const userId = event.queryStringParameters.userId;
                 const request = JSON.parse(event.body);
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).addNewUserTool(userId, request.toolId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).addNewUserTool(userId, request.toolId);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -202,7 +207,7 @@ exports.handler = async (event, context) => {
 
 
             // Add a new user
-        case ResourcesEnum.ADD_SKIN_TONE:
+        case ResourcesEnum.USER.ADD_SKIN_TONE:
 
             try {
 
@@ -212,7 +217,7 @@ exports.handler = async (event, context) => {
                 console.log('request = ', request);
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).addSkinTone(userId, request.skinTone);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).addSkinTone(userId, request.skinTone);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -226,7 +231,7 @@ exports.handler = async (event, context) => {
             break;
 
 
-        case ResourcesEnum.ADD_EYE_SHAPE:
+        case ResourcesEnum.USER.ADD_EYE_SHAPE:
 
             try {
 
@@ -236,7 +241,7 @@ exports.handler = async (event, context) => {
                 console.log('request = ', request);
 
                 // Get a new instance of the database controller and then add a new user.
-                const response = await DynamoController.getInstance(loggingHelper).addEyeShape(userId, request.eyeShape);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).addEyeShape(userId, request.eyeShape);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -250,7 +255,7 @@ exports.handler = async (event, context) => {
             break;
 
             // Update the usage count of the user
-        case ResourcesEnum.UPDATE_USAGE_COUNT:
+        case ResourcesEnum.USER.UPDATE_USAGE_COUNT:
 
             try {
 
@@ -258,7 +263,7 @@ exports.handler = async (event, context) => {
 
 
                 // Get a new instance of the database controller and update the usage count
-                const response = await DynamoController.getInstance(loggingHelper).updateUsageCount(userId);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).updateUsageCount(userId);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))
@@ -275,7 +280,7 @@ exports.handler = async (event, context) => {
              * userLogin - login the user by increasing the usage coun and also 
              * the streak if needed
              */
-        case ResourcesEnum.USER_LOGIN:
+        case ResourcesEnum.USER.USER_LOGIN:
 
             try {
 
@@ -286,7 +291,7 @@ exports.handler = async (event, context) => {
                 let updateStreak = false;
 
                 // Get the lastUsedTimeStamp from the database
-                let lastUsedTimeStamp = await DynamoController.getInstance(loggingHelper).getLastUsedTimestamp(userId);
+                let lastUsedTimeStamp = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).getLastUsedTimestamp(userId);
 
                 if (lastUsedTimeStamp) {
                     lastUsedTimeStamp = lastUsedTimeStamp.rtnData.Items[0].lastUsedTimestamp;
@@ -295,8 +300,8 @@ exports.handler = async (event, context) => {
                     var startDate = moment.utc(lastUsedTimeStamp);
                     var endDate = moment.utc(request.currentTimeStamp);
 
-                    console.log('...difference = ', endDate.diff(startDate, 'days') );
-                    
+                    console.log('...difference = ', endDate.diff(startDate, 'days'));
+
 
                     if (endDate.diff(startDate, 'days') === 1) {
 
@@ -306,7 +311,7 @@ exports.handler = async (event, context) => {
                 }
 
                 // Get a new instance of the database controller and update the usage count
-                const response = await DynamoController.getInstance(loggingHelper).userLogin(userId, updateStreak, request.currentTimeStamp);
+                const response = await USER_DYNAMO_CONTROLLER.getInstance(loggingHelper).userLogin(userId, updateStreak, request.currentTimeStamp);
 
                 return responseHelper.getSuccessfulResponse(
                     new Response(HttpCodesEnum.OK, JSON.stringify(response))

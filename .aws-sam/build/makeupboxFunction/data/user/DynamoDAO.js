@@ -1,5 +1,5 @@
-const AWS = require("aws-sdk");
-const DocumentClient = require("aws-sdk/lib/dynamodb/document_client");
+const DocumentClient = require("aws-sdk").DynamoDB.DocumentClient;
+//const DocumentClient = require("aws-sdk/lib/dynamodb/document_client");
 
 // Users
 const USERS_TABLE = process.env.USERS_TABLE || "";
@@ -13,11 +13,9 @@ const AIRTABLE_API_KEY = "key48NEUz9DnPFN90";
 
 var Airtable = require('airtable');
 
-
-
 module.exports = class DynamoDAO {
   constructor(pLoggingHelper) {
-    this.dynamo = new AWS.DynamoDB.DocumentClient({
+    this.dynamo = new DocumentClient({
       apiVersion: '2012-08-10'
     });
     this.loggingHelper = pLoggingHelper;
