@@ -65,6 +65,12 @@ exports.handler = async (event, context) => {
     // based on the resource i.e. /retrieveUser do some logic
     switch (event.path) {
 
+        // add a new interaction record to the table
+        case ResourcesEnum.ACTION_HISORY.ADD_NEW_INTERACTION:
+
+
+            break;
+
         // Add new purchase
         case ResourcesEnum.PURCHASES.ADD_NEW_PURCHASE:
             try {
