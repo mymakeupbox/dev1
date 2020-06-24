@@ -1,5 +1,6 @@
 const RequestError = require('./models/RequestError');
 const USER_DYNAMO_CONTROLLER = require('./controller/user/DynamoController');
+const PURCHASES_DYNAMO_CONTROLLER = require('./controller/purchases/DynamoController');
 const Response = require('./models/Response');
 const LoggingHelper = require('./utils/LoggingHelper');
 const ResponseHelper = require('./utils/ResponseHelper');
@@ -21,7 +22,7 @@ const ResourcesEnum = {
         USER_LOGIN: '/user/userLogin'
     },
     PURCHASES:{
-        
+        ADD_NEW_PURCHASE: '/purchases/addNewPurchase'
     }
 }
 
@@ -60,6 +61,25 @@ exports.handler = async (event, context) => {
 
     // based on the resource i.e. /retrieveUser do some logic
     switch (event.path) {
+
+        // Add new purchase
+        case ResourcesEnum.PURCHASES.ADD_NEW_PURCHASE:
+            try {
+
+                const request = JSON.parse(event.body);
+
+                // Get a new instance of the database controller and then add a new user.
+                const response = await PURCHASES_DYNAMO_CONTROLLER.getInstance(loggingHelper).addNewPurchase(request);
+                return responseHelper.getSuccessfulResponse(
+                    new Response(HttpCodesEnum.OK, JSON.stringify(response))
+                );
+
+            } catch (err) {
+                // return an error if anythin in the try block fails
+                return responseHelper.getErrorResponse(err);
+            }
+
+            break;
 
         // process the API call to /retrieveUser
         case ResourcesEnum.USER.RETRIEVE_USER:
