@@ -13,6 +13,7 @@ Globals:
         USERS_INDEX: user-id-index
         PURCHASES_TABLE: Purchases
         PURCHASES_INDEX: purchases-userId-index
+        INTERACTION_TABLE: interaction-history
         TOOLS_TABLE: tools
         TOOLS_INDEX: tools-id-index
         AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
@@ -84,6 +85,11 @@ Resources:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /purchases/addNewPurchase
+            Method: post
+        addNewInteraction:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /interaction/addNewInteraction
             Method: post
             
 Outputs:
