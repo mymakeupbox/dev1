@@ -14,6 +14,7 @@ Globals:
         PURCHASES_TABLE: Purchases
         PURCHASES_INDEX: purchases-userId-index
         INTERACTION_TABLE: interaction-history
+        INTERACTION_INDEX: interaction-userId-index
         TOOLS_TABLE: tools
         TOOLS_INDEX: tools-id-index
         AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
@@ -81,11 +82,25 @@ Resources:
           Properties:
             Path: /user/userLogin
             Method: post
+
+  makeupboxFunctionInteractions:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Events:
         addNewInteraction:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /interaction/addNewInteraction
             Method: post
+        getInteractionsByUserId:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /interaction/getInteractionsByUserId
+            Method: get
+
   makeupboxFunctionPurchases:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -112,6 +127,7 @@ Outputs:
   makeupboxFunctionIamRole:
     Description: "Implicit IAM Role created for makeupbox function"
     Value: !GetAtt makeupboxFunctionRole.Arn
+
   makeupboxPurchasesApi:
     Description: "API Gateway endpoint URL for Prod stage for makeupbox function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/"
@@ -121,3 +137,13 @@ Outputs:
   makeupboxFunctionPurchasesIamRole:
     Description: "Implicit IAM Role created for makeupbox function"
     Value: !GetAtt makeupboxFunctionPurchasesRole.Arn
+
+  makeupboxInteractionsApi:
+    Description: "API Gateway endpoint URL for Prod stage for makeupbox function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/"
+  makeupboxFunctionInteractions:
+    Description: "makeupbox Lambda Function ARN"
+    Value: !GetAtt makeupboxFunctionInteractions.Arn
+  makeupboxFunctionInteractionsIamRole:
+    Description: "Implicit IAM Role created for makeupbox function"
+    Value: !GetAtt makeupboxFunctionInteractionsRole.Arn

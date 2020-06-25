@@ -1,16 +1,17 @@
 {
-  "body": "{\"credits\": 5,\"timestamp\": \"2020-06-11T12:26:10Z\",\"timezone\": \"America/Los_Angeles\",\"typeDesc\": \"Smokey eyes\",\"typeId\": \"D\",\"userId\": \"amzn1.ask.account.AHYDG3CHUGDKXIGJOYIF6OFVN6CR56RMDQZX5IDL46JU7LZZIC62ZD2EIWSYRE6WPBG23ZYDZTJEDKBAM4ULMNJGUR7IUGLG3FLQPKM7OA3ORPLHY5SXX2G37IHYEFRAEDHQDC6GYV4TZY4ZMDVBEQZLRGNQFAWZ5MF2AIXI5W62ONJDQGVE5SFXKPLJBEHAUVICMCZCJS24BFx\"}",
+  "body": "{}",
   "resource": "/{proxy+}",
-  "path": "/purchases/addNewPurchase",
+  "path": "/interaction/getInteractionsByUserId",
   "httpMethod": "POST",
   "isBase64Encoded": true,
   "queryStringParameters": {
-    "userId": "sadf3ds-ewfszxf-erxce-4dsdfxx"
+    "userId": "amzn1.ask.account.AHYDG3CHUGDKXIGJOYIF6OFVN6CR56RMDQZX5IDL46JU7LZZIC62ZD2EIWSYRE6WPBG23ZYDZTJEDKBAM4ULMNJGUR7IUGLG3FLQPKM7OA3ORPLHY5SXX2G37IHYEFRAEDHQDC6GYV4TZY4ZMDVBEQZLRGNQFAWZ5MF2AIXI5W62ONJDQGVE5SFXKPLJBEHAUVICMCZCJS24BFx",
+    "eventType":"PURCHASE"
   },
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/purchases/addNewPurchase"
+    "proxy": "/interaction/getInteractionsByUserId"
   },
   "stageVariables": {
   },
@@ -110,7 +111,7 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/purchases/addNewPurchase",
+    "path": "/interaction/getInteractionsByUserId",
     "resourcePath": "/{proxy+}",
     "httpMethod": "POST",
     "apiId": "1234567890",

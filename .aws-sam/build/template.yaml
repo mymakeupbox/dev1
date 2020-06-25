@@ -13,6 +13,7 @@ Globals:
         PURCHASES_TABLE: Purchases
         PURCHASES_INDEX: purchases-userId-index
         INTERACTION_TABLE: interaction-history
+        INTERACTION_INDEX: interaction-userId-index
         TOOLS_TABLE: tools
         TOOLS_INDEX: tools-id-index
         AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
@@ -79,11 +80,23 @@ Resources:
           Properties:
             Path: /user/userLogin
             Method: post
+  makeupboxFunctionInteractions:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: makeupboxFunctionInteractions
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Events:
         addNewInteraction:
           Type: Api
           Properties:
             Path: /interaction/addNewInteraction
             Method: post
+        getInteractionsByUserId:
+          Type: Api
+          Properties:
+            Path: /interaction/getInteractionsByUserId
+            Method: get
   makeupboxFunctionPurchases:
     Type: AWS::Serverless::Function
     Properties:
@@ -128,4 +141,20 @@ Outputs:
     Value:
       Fn::GetAtt:
       - makeupboxFunctionPurchasesRole
+      - Arn
+  makeupboxInteractionsApi:
+    Description: API Gateway endpoint URL for Prod stage for makeupbox function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/
+  makeupboxFunctionInteractions:
+    Description: makeupbox Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - makeupboxFunctionInteractions
+      - Arn
+  makeupboxFunctionInteractionsIamRole:
+    Description: Implicit IAM Role created for makeupbox function
+    Value:
+      Fn::GetAtt:
+      - makeupboxFunctionInteractionsRole
       - Arn
