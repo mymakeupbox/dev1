@@ -1,14 +1,10 @@
 const DocumentClient = require("aws-sdk").DynamoDB.DocumentClient;
 var randomstring = require("randomstring");
+var _ = require('lodash');
 //const DocumentClient = require("aws-sdk/lib/dynamodb/document_client");
 
 // Users
 const PURCHASES_TABLE = process.env.PURCHASES_TABLE || "";
-const PURCHASES_INDEX = process.env.PURCHASES_INDEX || "";
-
-// Tools
-const TOOLS_TABLE = process.env.TOOLS_TABLE || "";
-const TOOLS_INDEX = process.env.TOOLS_INDEX || "";
 
 
 
@@ -28,16 +24,9 @@ module.exports = class DynamoDAO {
   async addNewPurchase(item){
     this.loggingHelper.info("Saving new purchase to DB", item);
 
-     // Create a new random number 
-     let id = randomstring.generate(12);
-
-     // create a new id field in the json object
-     item.ID = id;
-
     const params = {
       TableName: PURCHASES_TABLE,
-      Item: item,
-      ConditionExpression: "attribute_not_exists( id )"
+      Item: item
     };
     await this.dynamo.put(params).promise();
 
@@ -51,6 +40,60 @@ module.exports = class DynamoDAO {
     return lRtnJson;
 
   };
+
+  /**
+   * getPurchasesByUserId
+   * - Get purchases by the user id, sorted by timestamp
+   * @param {String} userId 
+   */
+  async getPurchasesByUserId(userId){
+
+    this.loggingHelper.info("Get user purchases using user id ", userId);
+
+    const params = {
+      TableName: PURCHASES_TABLE,
+      KeyConditionExpression: "userId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": userId
+      }
+    };
+    // Scan for the item in the user-id-index
+    let response = await this.dynamo.query(params).promise();
+
+    return response;
+
+  }; // end getPurchasesByUserId
+  /**
+   * getLatestPurchaseByUserId
+   * - Get latest purchase by the user id, sorted by timestamp
+   * @param {String} userId 
+   */
+  async getLatestPurchaseByUserId(userId){
+
+    this.loggingHelper.info("Get the latest purchase using user id ", userId);
+
+    const params = {
+      TableName: PURCHASES_TABLE,
+      KeyConditionExpression: "userId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": userId
+      }
+    };
+    // Scan for the item in the user-id-index
+    let response = await this.dynamo.query(params).promise();
+
+    response.Items = _.head(response.Items);
+
+    response.Count = 1;
+    response.ScannedCount = 1;
+    response.success = true;
+   
+    console.log('response = ', JSON.stringify(response));
+
+    return response;
+
+  }; // end getPurchasesByUserId
+  
 
 
 };

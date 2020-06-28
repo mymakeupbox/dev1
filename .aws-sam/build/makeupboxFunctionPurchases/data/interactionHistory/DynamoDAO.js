@@ -3,7 +3,6 @@ var randomstring = require("randomstring");
 
 // Users
 const INTERACTION_TABLE = process.env.INTERACTION_TABLE || "";
-const INTERACTION_INDEX = process.env.INTERACTION_INDEX || "";
 
 module.exports = class DynamoDAO {
 
@@ -22,16 +21,9 @@ module.exports = class DynamoDAO {
   async addNewInteraction(item) {
     this.loggingHelper.info("Saving new interaction to DB", item);
 
-    // Create a new random number 
-    let id = randomstring.generate(12);
-
-    // create a new id field in the json object
-    item.id = id;
-
     const params = {
       TableName: INTERACTION_TABLE,
-      Item: item,
-      ConditionExpression: "attribute_not_exists( id )"
+      Item: item
     };
     await this.dynamo.put(params).promise();
     return item;
@@ -50,7 +42,6 @@ module.exports = class DynamoDAO {
 
 
     const params = {
-      IndexName: INTERACTION_INDEX,
       TableName: INTERACTION_TABLE,
       KeyConditionExpression: "userId = :userId",
       FilterExpression: "eventType = :eventType",

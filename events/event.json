@@ -1,17 +1,16 @@
 {
-  "body": "{}",
+  "body":"{\"currentTimeStamp\":1593290898}",
   "resource": "/{proxy+}",
-  "path": "/interaction/getInteractionsByUserId",
-  "httpMethod": "POST",
+  "path": "/user/userLogin",
+  "httpMethod": "GET",
   "isBase64Encoded": true,
   "queryStringParameters": {
-    "userId": "amzn1.ask.account.AHYDG3CHUGDKXIGJOYIF6OFVN6CR56RMDQZX5IDL46JU7LZZIC62ZD2EIWSYRE6WPBG23ZYDZTJEDKBAM4ULMNJGUR7IUGLG3FLQPKM7OA3ORPLHY5SXX2G37IHYEFRAEDHQDC6GYV4TZY4ZMDVBEQZLRGNQFAWZ5MF2AIXI5W62ONJDQGVE5SFXKPLJBEHAUVICMCZCJS24BFx",
-    "eventType":"PURCHASE"
+    "userId": "amzn1.ask.account.AHYDG3CHUGDKXIGJOYIF6OFVN6CR56RMDQZX5IDL46JU7LZZIC62ZD2EIWSYRE6WPBG23ZYDZTJEDKBAM4ULMNJGUR7IUGLG3FLQPKM7OA3ORPLHY5SXX2G37IHYEFRAEDHQDC6GYV4TZY4ZMDVBEQZLRGNQFAWZ5MF2AIXI5W62ONJDQGVE5SFXKPLJBEHAUVICMCZCJS24BFY"
   },
   "multiValueQueryStringParameters": {
   },
   "pathParameters": {
-    "proxy": "/interaction/getInteractionsByUserId"
+    "proxy": "/user/userLogin"
   },
   "stageVariables": {
   },
@@ -111,9 +110,9 @@
       "userAgent": "Custom User Agent String",
       "user": null
     },
-    "path": "/interaction/getInteractionsByUserId",
+    "path": "/user/getUserLevel",
     "resourcePath": "/{proxy+}",
-    "httpMethod": "POST",
+    "httpMethod": "GET",
     "apiId": "1234567890",
     "protocol": "HTTP/1.1"
   }

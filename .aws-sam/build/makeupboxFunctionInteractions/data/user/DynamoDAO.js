@@ -61,6 +61,58 @@ module.exports = class DynamoDAO {
   }
 
   /**
+   * getUserLevel
+   * Get the user level from the database keyed on id
+   *
+   */
+  async getUserLevel(id) {
+    this.loggingHelper.info("Getting user id", id);
+
+    let lRtnLevel;
+    let lRtnResponse = {};
+
+    const params = {
+      TableName: USERS_TABLE,
+      ProjectionExpression: "visitCount",
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: {
+        ":id": id
+      }
+    };
+    // Scan for the item in the user-id-index
+    let response = await this.dynamo.query(params).promise();
+
+    if (response.Count > 0) {
+      let visitCount = response.Items[0].visitCount;
+
+      // Level 1
+      if (visitCount <= 10) {
+        lRtnLevel = 1;
+      }
+
+      // Level 2
+      if (visitCount > 10 && visitCount <= 20) {
+        lRtnLevel = 2;
+      }
+
+      // Level 3
+      if (visitCount > 20) {
+        lRtnLevel = 3;
+      }
+
+      lRtnResponse.userLevel = lRtnLevel;
+      lRtnResponse.success = true;
+
+    } else {
+      // No record found so userLevel is zero
+      lRtnResponse.userLevel = 0;
+      lRtnResponse.success = false;
+    }
+
+    return lRtnResponse;
+  }
+
+  /**
    * checkSubscriberById
    * Get the user record from the database keyed on id
    * returns an
@@ -313,7 +365,7 @@ module.exports = class DynamoDAO {
     let lDbUpdateResult = await this.dynamo.query({
       IndexName: USERS_INDEX,
       TableName: USERS_TABLE,
-      ProjectionExpression:"lastUsedTimestamp",
+      ProjectionExpression: "lastUsedTimestamp",
       KeyConditionExpression: "id = :id",
       ExpressionAttributeValues: {
         ":id": id
@@ -354,7 +406,7 @@ module.exports = class DynamoDAO {
     }).promise();
 
     // If we need to update the streak do so 
-    if (updatestreak){
+    if (updatestreak) {
 
       lDbUpdateResult = await this.dynamo.update({
         TableName: USERS_TABLE,
@@ -366,6 +418,7 @@ module.exports = class DynamoDAO {
           ":increment": 1
         }
       }).promise();
+
     }
 
     let response = {

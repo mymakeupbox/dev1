@@ -11,10 +11,12 @@
   "dependencies": {
     "airtable": "^0.8.1",
     "aws-sdk": "^2.690.0",
+    "lambda-warmer": "^1.2.1",
+    "lodash": "^4.17.15",
     "moment": "^2.27.0",
+    "randomstring": "^1.1.5",
     "uuid": "^7.0.3",
-    "uuidv4": "^6.1.0",
-    "randomstring":"^1.1.5"
+    "uuidv4": "^6.1.0"
   },
   "devDependencies": {}
 }

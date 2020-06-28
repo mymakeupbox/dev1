@@ -42,6 +42,4 @@ module.exports = class DynamoController {
         return this.dynamoDao.getInteractionsByUserId(userId, eventType);
     };
 
-    
-
 }

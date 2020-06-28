@@ -10,10 +10,9 @@ Globals:
       Variables:
         USERS_TABLE: user
         USERS_INDEX: user-id-index
-        PURCHASES_TABLE: Purchases
-        PURCHASES_INDEX: purchases-userId-index
+        PURCHASES_TABLE: purchases
         INTERACTION_TABLE: interaction-history
-        INTERACTION_INDEX: interaction-userId-index
+        FAVOURITE_TABLE: favourite
         TOOLS_TABLE: tools
         TOOLS_INDEX: tools-id-index
         AIRTABLE_API_KEY: keyLQDq3kyAzazhAK
@@ -24,7 +23,15 @@ Resources:
       CodeUri: makeupboxFunction
       Handler: index.handler
       Runtime: nodejs12.x
+      AutoPublishAlias: live
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 10
       Events:
+        WarmingSchedule1:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":0 }'
         user:
           Type: Api
           Properties:
@@ -80,13 +87,26 @@ Resources:
           Properties:
             Path: /user/userLogin
             Method: post
+        getUserLevel:
+          Type: Api
+          Properties:
+            Path: /user/getUserLevel
+            Method: get
   makeupboxFunctionInteractions:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: makeupboxFunctionInteractions
       Handler: index.handler
       Runtime: nodejs12.x
+      AutoPublishAlias: live
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 10
       Events:
+        WarmingSchedule1:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":0 }'
         addNewInteraction:
           Type: Api
           Properties:
@@ -103,12 +123,50 @@ Resources:
       CodeUri: makeupboxFunctionPurchases
       Handler: index.handler
       Runtime: nodejs12.x
+      AutoPublishAlias: live
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 10
       Events:
+        WarmingSchedule1:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":0 }'
         addNewPurchase:
           Type: Api
           Properties:
             Path: /purchases/addNewPurchase
             Method: post
+        getLatestPurchaseByUserId:
+          Type: Api
+          Properties:
+            Path: /purchases/getLatestPurchaseByUserId
+            Method: get
+  makeupboxFunctionFavourite:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: makeupboxFunctionFavourite
+      Handler: index.handler
+      Runtime: nodejs12.x
+      AutoPublishAlias: live
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 10
+      Events:
+        WarmingSchedule1:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":0 }'
+        addNewFavourite:
+          Type: Api
+          Properties:
+            Path: /favourite/addNewFavourite
+            Method: post
+        getFavouritesByUserId:
+          Type: Api
+          Properties:
+            Path: /favourite/getFavouritesByUserId
+            Method: get
 Outputs:
   makeupboxApi:
     Description: API Gateway endpoint URL for Prod stage for makeupbox function
@@ -157,4 +215,20 @@ Outputs:
     Value:
       Fn::GetAtt:
       - makeupboxFunctionInteractionsRole
+      - Arn
+  makeupboxFavouriteApi:
+    Description: API Gateway endpoint URL for Prod stage for makeupbox function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/makeupbox/
+  makeupboxFunctionFavourite:
+    Description: makeupbox Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - makeupboxFunctionFavourite
+      - Arn
+  makeupboxFunctionFavouriteIamRole:
+    Description: Implicit IAM Role created for makeupbox function
+    Value:
+      Fn::GetAtt:
+      - makeupboxFunctionFavouriteRole
       - Arn

@@ -28,8 +28,28 @@ module.exports = class DynamoController {
     async addNewPurchase(newPurchaseObj) {
         this.loggingHelper.info('add new purchase for user', newPurchaseObj.userId);
         return this.dynamoDao.addNewPurchase(newPurchaseObj);
+    };
+
+    
+    /**
+     * getPurchasesByUserId
+     * - Get all purchases by the user
+     * @param {string} userId 
+     */
+    async getPurchasesByUserId(userId){
+        this.loggingHelper.info('get list of purchases for user', userId);
+        return this.dynamoDao.getPurchasesByUserId(userId);
     }
 
+    /**
+     * getLatestPurchaseByUserId
+     * - Get the latest purchase by the user
+     * @param {string} userId 
+     */
+    async getLatestPurchaseByUserId(userId){
+        this.loggingHelper.info('get teh latest of purchase for user', userId);
+        return this.dynamoDao.getLatestPurchaseByUserId(userId);
+    }
     
 
 }
