@@ -30,7 +30,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(5 minutes)
-            Input: '{ "warmer":true,"concurrency":0 }'
+            Input: '{ "warmer":true,"concurrency":3 }'
         user:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
@@ -103,7 +103,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(5 minutes)
-            Input: '{ "warmer":true,"concurrency":0 }'
+            Input: '{ "warmer":true,"concurrency":3 }'
         addNewInteraction:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
@@ -126,7 +126,7 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(5 minutes)
-            Input: '{ "warmer":true,"concurrency":0 }'
+            Input: '{ "warmer":true,"concurrency":3 }'
         addNewPurchase:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
@@ -143,15 +143,12 @@ Resources:
       CodeUri: src/
       Handler: index.handler
       Runtime: nodejs12.x
-      AutoPublishAlias: live
-      ProvisionedConcurrencyConfig:
-        ProvisionedConcurrentExecutions: 10
       Events:
         WarmingSchedule1:
           Type: Schedule
           Properties:
             Schedule: rate(5 minutes)
-            Input: '{ "warmer":true,"concurrency":0 }'
+            Input: '{ "warmer":true,"concurrency":3 }'
         addNewFavourite:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
